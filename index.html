@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#070d17">
+<title>Neko Nina — Anime Streaming</title>
+<style>
+:root{--bg:#070c14;--panel:#0b1320;--panel2:#101b2b;--line:#1c2b40;--blue:#087cff;--blue2:#35b7ff;--muted:#9baac0;--text:#f2f6ff}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,-apple-system,Segoe UI,Arial,sans-serif;font-size:14px}button,input,select{font:inherit}button,a{ -webkit-tap-highlight-color:transparent}button{cursor:pointer}a{color:inherit;text-decoration:none}
+.topbar{height:64px;position:sticky;top:0;z-index:30;display:flex;align-items:center;gap:28px;padding:0 24px;background:#080e18f2;border-bottom:1px solid #1a2638;backdrop-filter:blur(14px)}
+.brand{display:flex;align-items:center;gap:9px;font-size:26px;font-weight:850;letter-spacing:-1.3px;white-space:nowrap}.brand-mark{font-size:31px;line-height:1;color:#168bff;text-shadow:0 0 22px #087cff66;transform:skew(-10deg)}.brand span:last-child{color:#f4f7ff}
+.mainnav{display:flex;align-items:center;gap:27px;height:100%;white-space:nowrap}.mainnav a{height:100%;display:flex;align-items:center;color:#c0cadd;border-bottom:2px solid transparent}.mainnav a.active,.mainnav a:hover{color:#38a5ff;border-color:#168bff}
+.top-search{margin-left:auto;display:flex;align-items:center;max-width:330px;min-width:160px;width:26%;border:1px solid #243650;background:#0c1523;border-radius:22px;padding:0 13px}.top-search input{width:100%;background:transparent;border:0;outline:0;color:white;padding:10px 0}.top-search button{border:0;background:none;color:#aebed5;font-size:19px}.icon-btn{border:0;background:none;color:#c9d7ed;font-size:22px}.auth{display:flex;gap:9px}.auth button,.primary,.secondary{border-radius:9px;padding:10px 18px;border:1px solid #24446d;color:#edf6ff;background:#0d1726}.auth .signup,.primary{background:var(--blue);border-color:var(--blue);font-weight:750}.auth button:hover,.primary:hover{filter:brightness(1.15)}
+.layout{display:grid;grid-template-columns:196px minmax(0,1fr);min-height:calc(100vh - 64px)}.sidebar{border-right:1px solid #1a2638;padding:18px 14px 24px;background:#080e17;display:flex;flex-direction:column;gap:18px}.side-links{display:grid;gap:5px}.side-link{display:flex;align-items:center;gap:12px;padding:10px 11px;border-radius:7px;color:#c3cee0;text-align:left;border:0;background:transparent;width:100%}.side-link .ico{width:20px;text-align:center;font-size:16px}.side-link:hover,.side-link.active{background:#0b2a50;color:#58b7ff}.side-heading{font-size:14px;font-weight:750;padding:0 5px 9px;border-bottom:1px solid #1b293a;margin-bottom:7px}.side-foot{margin-top:auto;border-top:1px solid #1b293a;padding:20px 8px;color:#9eacc1;font-size:12px;line-height:1.55;display:flex;gap:10px}.side-foot b{color:#28a2ff;font-size:23px}
+main{min-width:0;padding:18px 18px 35px}.content-grid{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:20px}.primary-col{min-width:0}.hero{height:330px;position:relative;overflow:hidden;border-radius:9px;background:linear-gradient(90deg,#050b14 0%,#071020e8 35%,#0710203a 75%),radial-gradient(ellipse at 75% 45%,#294c94,#101a35 40%,#090e1a 76%);border:1px solid #18273b}.hero-art{position:absolute;inset:0;background:linear-gradient(90deg,#050b14 0%,#050b14d9 33%,transparent 78%),linear-gradient(0deg,#080d17a8,transparent 50%);display:flex;justify-content:flex-end;align-items:center;padding-right:5%;font-size:clamp(110px,20vw,230px);filter:saturate(.9);opacity:.9}.hero-art:after{content:"";position:absolute;inset:0;background:radial-gradient(circle at 78% 42%,#537bff36,transparent 35%)}.hero-copy{position:relative;z-index:2;padding:35px 24px;max-width:480px}.pills{display:flex;gap:7px;margin-bottom:13px}.pill{font-size:11px;font-weight:800;padding:5px 9px;border-radius:5px;background:#087cff}.pill.dark{background:#18253a;color:#dce7f8}.hero h1{font-size:clamp(34px,4vw,56px);line-height:1.02;letter-spacing:-1.7px;margin:0 0 16px}.hero p{line-height:1.7;color:#d4deef;max-width:380px;margin:0}.hero-actions{display:flex;gap:11px;margin-top:20px}.primary,.secondary{display:inline-flex;align-items:center;gap:8px;padding:11px 18px}.secondary{background:#09111ed9}.hero-arrows{position:absolute;right:18px;bottom:18px;z-index:3;display:flex;gap:8px}.hero-arrows button{width:38px;height:38px;border:1px solid #7185a455;border-radius:8px;background:#06101dcc;color:white;font-size:20px}.dots{position:absolute;bottom:12px;left:50%;display:flex;gap:5px}.dots i{height:5px;width:5px;border-radius:50%;background:#7386a8}.dots i:first-child{background:#2b9cff;width:18px;border-radius:5px}
+.section{margin-top:24px}.section-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:14px}.section-head h2{font-size:19px;margin:0;letter-spacing:-.3px}.section-head h2 span{margin-right:8px}.see-all{color:#3caaff;font-size:12px;white-space:nowrap}.anime-grid{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:13px}.anime-card{min-width:0;cursor:pointer}.poster{height:clamp(135px,17vw,205px);position:relative;overflow:hidden;border-radius:7px;background:linear-gradient(145deg,var(--c1),#10192a 85%);display:grid;place-items:center;border:1px solid #28364a;transition:transform .2s,border-color .2s}.poster:before{content:"";position:absolute;inset:0;background:linear-gradient(0deg,#050914b8,transparent 65%)}.poster:hover{transform:translateY(-4px);border-color:#268fff}.poster-symbol{font-size:clamp(42px,5vw,70px);filter:drop-shadow(0 6px 10px #0008);z-index:1}.poster-image{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}.poster.has-image:before{background:linear-gradient(0deg,#050914e8 0%,#05091412 65%)}.mini-poster img{width:100%;height:100%;object-fit:cover;border-radius:5px}.hero-art.has-image{font-size:0;background-size:cover!important;background-position:center 30%;opacity:1}.hero-art.has-image:after{background:linear-gradient(90deg,#050b14 0%,#050b14b8 28%,transparent 90%),linear-gradient(0deg,#080d17a8,transparent 60%)}.poster-tag{position:absolute;top:7px;left:7px;z-index:2;background:#071a36d9;padding:4px 6px;border-radius:4px;font-size:10px;font-weight:800}.new-tag{position:absolute;top:7px;right:7px;z-index:2;background:#19c66a;color:#03160b;padding:3px 5px;border-radius:4px;font-size:9px;font-weight:900}.poster-title{position:absolute;z-index:2;bottom:10px;left:6px;right:6px;text-align:center;font-size:12px;font-weight:900;text-shadow:0 2px 6px #000}.card-title{margin:9px 0 5px;font-weight:750;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:12px}.rating{color:#ffc84d;font-size:12px}.meta{font-size:11px;color:#a5b3c8;margin-top:4px}
+.updates{padding-top:18px;border-top:1px solid #203047}.update-grid .poster{height:clamp(110px,13vw,150px)}
+.right-col{min-width:0;display:flex;flex-direction:column;gap:15px}.panel{border:1px solid #203047;border-radius:9px;background:linear-gradient(145deg,#0c1421,#080f19);overflow:hidden}.panel-head{display:flex;align-items:center;justify-content:space-between;padding:13px 14px;border-bottom:1px solid #1b293b}.panel-head h3{font-size:14px;margin:0}.panel-body{padding:5px 12px 10px}.rank-row{display:grid;grid-template-columns:26px 52px minmax(0,1fr);gap:9px;align-items:center;padding:6px 0}.rank{width:24px;height:24px;border-radius:50%;background:#182437;display:grid;place-items:center;color:#c9d8ee;font-size:11px;font-weight:800}.mini-poster{height:53px;border-radius:6px;display:grid;place-items:center;font-size:26px;background:linear-gradient(135deg,var(--c1),#121a2a);border:1px solid #2a394d}.rank-title{font-size:12px;font-weight:750;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.rank-meta{font-size:10px;color:#a9b7cc;margin-top:5px}.day{font-size:11px;font-weight:800;color:#dfe8f6;padding:8px 2px 4px}.schedule-row{display:grid;grid-template-columns:28px minmax(0,1fr) auto;gap:7px;align-items:center;padding:5px 0}.schedule-icon{height:27px;border-radius:4px;display:grid;place-items:center;background:linear-gradient(135deg,var(--c1),#152035);font-size:15px}.schedule-title{font-size:10px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.season,.schedule-time{font-size:9px;color:#9caec5}.schedule-time{padding-left:5px}.promo{min-height:125px;position:relative;overflow:hidden;display:flex;align-items:center;padding:16px;background:linear-gradient(100deg,#0d2341,#0a1423)}.promo-art{font-size:68px;opacity:.65;margin-right:10px}.promo h3{font-size:13px;color:#49b7ff;margin:0 0 6px}.promo p{font-size:10px;line-height:1.5;color:#b8c8dc;margin:0 0 10px}.promo .primary{padding:8px 12px;font-size:11px}
+.empty{display:none;color:var(--muted);padding:20px 0}.footer{padding:24px 0 0;color:#7f90a8;font-size:11px;line-height:1.7}
+.modal{display:none;position:fixed;inset:0;z-index:50;background:#02060de8;overflow:auto;padding:24px 14px}.modal-box{max-width:800px;margin:25px auto;background:#0c1523;border:1px solid #293a52;border-radius:13px;padding:20px;box-shadow:0 25px 100px #0009}.modal-top{display:flex;justify-content:space-between;align-items:flex-start;gap:15px;margin-bottom:16px}.modal-top h2{margin:0 0 6px}.muted{color:var(--muted)}.close{background:#18263a;color:#fff;border:1px solid #30425c;padding:9px 13px;border-radius:8px}.player{aspect-ratio:16/9;background:#03060b;border-radius:9px;display:flex;align-items:center;justify-content:center;text-align:center;padding:20px;color:#bac7da;line-height:1.7;border:1px solid #1e2d42}.player video{width:100%;height:100%;object-fit:contain}.episodes{display:flex;gap:8px;flex-wrap:wrap;margin-top:13px}.episode-btn{padding:9px 12px;border:1px solid #2a3b54;background:#111d2e;color:#eaf2ff;border-radius:7px}.episode-btn.active,.episode-btn:hover{background:#087cff;border-color:#087cff}.modal-description{line-height:1.7;color:#b8c7db;margin-top:18px}.settings-box{max-width:900px}.settings-grid{display:grid;grid-template-columns:minmax(0,1fr);gap:12px;margin:12px 0 20px}.settings-grid label{display:flex;flex-direction:column;gap:8px;color:#cdd9eb;font-size:12px;padding:12px;border:1px solid #1e3047;border-radius:10px;background:#0a1422}.settings-grid input,.settings-grid select,.settings-grid textarea{width:100%;min-width:0;background:#08111e;color:#f2f6ff;border:1px solid #2a3d57;border-radius:7px;padding:10px;outline:none}.settings-grid input[type=color]{height:40px;padding:4px}.settings-grid .wide{grid-column:auto}.setting-apply{align-self:flex-start;border:1px solid #28517d;background:#10294a;color:#dceeff;border-radius:7px;padding:7px 12px;font-weight:700}.setting-apply:hover{background:#087cff}.settings-box{max-width:700px}.settings-actions{display:flex;gap:9px;flex-wrap:wrap}.episode-manager-rows{display:grid;gap:10px;margin:10px 0 14px}.episode-manager-row{display:grid;grid-template-columns:minmax(90px,.7fr) minmax(0,2fr) auto;gap:9px;align-items:end;padding:12px;border:1px solid #26384f;background:#0a1422;border-radius:10px}.episode-manager-row label{display:grid;gap:6px;color:#cdd9eb;font-size:12px}.episode-manager-row input{width:100%;min-width:0;background:#08111e;color:#f2f6ff;border:1px solid #2a3d57;border-radius:7px;padding:10px}.episode-manager-row button{padding:9px 10px;border:1px solid #52323a;background:#281820;color:#ffdce2;border-radius:7px}@media(max-width:560px){.episode-manager-row{grid-template-columns:1fr}.episode-manager-row button{justify-self:start}}.settings-box h3{margin:22px 0 8px}.light .settings-grid input,.light .settings-grid select,.light .settings-grid textarea{color:#fff}.anime-grid{grid-template-columns:repeat(var(--anime-columns,6),minmax(0,1fr))}.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#14243a;border:1px solid #2d527b;padding:12px 17px;border-radius:9px;display:none;z-index:80;box-shadow:0 8px 30px #0008}
+@media(max-width:1250px){.content-grid{grid-template-columns:minmax(0,1fr) 270px}.anime-grid{grid-template-columns:repeat(4,minmax(0,1fr))}.mainnav{gap:17px}.topbar{gap:18px}.sidebar{width:176px}.layout{grid-template-columns:176px minmax(0,1fr)}}
+@media(max-width:980px){.content-grid{grid-template-columns:minmax(0,1fr)}.right-col{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));align-items:start}.promo{min-height:150px}.mainnav{gap:14px}.mainnav a:nth-last-child(-n+2){display:none}}
+@media(max-width:700px){.topbar{height:auto;min-height:60px;flex-wrap:wrap;padding:11px 14px;gap:12px}.brand{font-size:23px}.brand-mark{font-size:27px}.mainnav{order:3;width:100%;height:34px;justify-content:space-between;gap:8px}.mainnav a{font-size:12px}.mainnav a:nth-last-child(-n+2){display:flex}.top-search{width:auto;flex:1;min-width:100px;margin-left:auto}.icon-btn{display:none}.auth button{padding:8px 10px;font-size:12px}.layout{display:block}.sidebar{display:none}main{padding:12px}.hero{height:300px}.hero-copy{padding:25px 18px;max-width:82%}.hero p{font-size:12px}.hero-art{font-size:130px;padding-right:0;opacity:.55}.anime-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}.poster{height:clamp(130px,42vw,200px)}.update-grid .poster{height:clamp(105px,32vw,155px)}.right-col{grid-template-columns:1fr}.panel.schedule-panel{display:block}.section{margin-top:20px}.section-head h2{font-size:17px}}
+@media(max-width:390px){.anime-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.hero h1{font-size:32px}.hero-copy{max-width:95%}.mainnav a{font-size:11px}.auth .login{display:none}}
+
+/* Auth modal */
+.auth-overlay{display:none;position:fixed;inset:0;z-index:120;background:rgba(1,5,13,.82);backdrop-filter:blur(10px);padding:18px;overflow:auto;align-items:center;justify-content:center}
+.auth-overlay.show{display:flex}.auth-box{width:min(440px,100%);position:relative;overflow:hidden;background:linear-gradient(145deg,#111f34,#08111e 70%);border:1px solid #2b4260;border-radius:24px;box-shadow:0 28px 100px #000a;padding:30px}
+.auth-box:before{content:"";position:absolute;width:230px;height:230px;border-radius:50%;background:#087cff25;filter:blur(40px);right:-100px;top:-100px;pointer-events:none}
+.auth-close{position:absolute;right:15px;top:13px;border:1px solid #2b4260;background:#0b1728;color:#dceaff;border-radius:10px;width:36px;height:36px;font-size:20px;cursor:pointer}
+.auth-logo{display:flex;align-items:center;gap:10px;font-weight:900;font-size:22px;margin-bottom:22px}.auth-logo .brand-mark{display:grid;place-items:center;width:42px;height:42px;border-radius:13px;background:linear-gradient(135deg,#087cff,#35b7ff);color:white;box-shadow:0 7px 24px #087cff55}
+.auth-kicker{color:#42baff;font-size:11px;font-weight:800;letter-spacing:2px;text-transform:uppercase}.auth-box h2{font-size:29px;margin:7px 0 8px}.auth-sub{font-size:13px;line-height:1.6;color:#9baac0;margin:0 0 22px}.auth-tabs{display:grid;grid-template-columns:1fr 1fr;gap:5px;padding:4px;background:#07101c;border:1px solid #1c2b40;border-radius:12px;margin-bottom:20px}.auth-tabs button{border:0;border-radius:9px;background:transparent;color:#9baac0;padding:10px;cursor:pointer;font-weight:700}.auth-tabs button.active{background:#12345a;color:#fff}.auth-field{display:block;margin:13px 0}.auth-field span{display:block;color:#d9e5f5;font-size:12px;font-weight:700;margin-bottom:7px}.auth-field input{width:100%;padding:13px 14px;background:#07101c;border:1px solid #263a53;border-radius:11px;color:#fff;outline:none}.auth-field input:focus{border-color:#35b7ff;box-shadow:0 0 0 3px #35b7ff18}.auth-submit{width:100%;padding:13px;border:0;border-radius:12px;background:linear-gradient(100deg,#087cff,#25a9ff);color:white;font-weight:800;cursor:pointer;margin-top:8px;box-shadow:0 8px 24px #087cff35}.auth-message{font-size:12px;line-height:1.5;margin-top:12px;color:#ffb4b4;min-height:18px}.auth-foot{font-size:11px;line-height:1.5;color:#74869d;margin-top:14px;text-align:center}.auth-switch{border:0;background:none;color:#42baff;cursor:pointer;font-weight:700}
+@media(max-width:480px){.auth-box{padding:25px 20px}.auth-box h2{font-size:25px}}
+
+
+/* Navigasi halaman terpisah */
+#pageView{display:none;min-height:65vh;padding:8px 0 28px}
+#pageView .page-title{font-size:26px;margin:8px 0 20px;font-weight:800}
+#pageView .page-subtitle{color:var(--muted);margin:-12px 0 22px}
+#pageView .anime-grid{display:grid;grid-template-columns:repeat(var(--anime-columns,6),minmax(0,1fr));gap:13px}
+#pageView .panel{margin-bottom:14px}
+body[data-page]:not([data-page="home"]) .content-grid{display:none}
+body[data-page]:not([data-page="home"]) #pageView{display:block}
+body[data-page="anime"] #pageView .anime-grid{grid-template-columns:repeat(var(--anime-columns,6),minmax(0,1fr))}
+@media(max-width:700px){#pageView .anime-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(max-width:390px){#pageView .anime-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+
+/* Polished, restrained visual refresh */
+:root{--bg:#0c1017;--panel:#121923;--panel2:#192331;--line:#283342;--blue:#4d8fe8;--blue2:#83b6ff;--muted:#9ba7b7;--text:#eef2f8}
+body{background:var(--bg);color:var(--text);letter-spacing:.05px}
+.topbar{background:rgba(12,16,23,.96);border-bottom:1px solid #252e3b;gap:24px;padding-inline:clamp(14px,2.2vw,30px)}
+.brand{font-size:23px;letter-spacing:-.8px}.brand-mark{color:#77a9ef;text-shadow:none}
+.mainnav{gap:20px}.mainnav a{font-size:13px;color:#aeb9c9;border-bottom-width:2px}.mainnav a.active,.mainnav a:hover{color:#d9e8ff;border-color:#6b9de8}
+.top-search{border-color:#303b4b;background:#121923;border-radius:8px}.top-search:focus-within{border-color:#6b9de8}
+.auth button,.primary,.secondary{border-radius:7px;border-color:#354255;background:#182231;transition:background .16s,border-color .16s}.auth .signup,.primary{background:#477fc9;border-color:#477fc9;color:white}.auth .signup:hover,.primary:hover{background:#578ed9;filter:none}.secondary:hover,.auth button:hover{background:#202d3e;border-color:#53647b;filter:none}
+.layout{background:var(--bg)}.sidebar{background:#0d121a;border-color:#252e3b}.side-link{border-radius:6px;color:#b7c2d1}.side-link:hover,.side-link.active{background:#1a2a40;color:#cfe2ff}
+main{padding:clamp(14px,2vw,26px)}.hero{border-radius:10px;border-color:#293546;background:linear-gradient(90deg,#0b111a 0%,#111b2aeb 40%,#101b2c40 100%),radial-gradient(ellipse at 78% 40%,#314765,#101722 70%)}.hero-art{filter:saturate(.65);opacity:.72}.pill{background:#477fc9;border-radius:4px}.pill.dark{background:#263243;color:#d4dce8}.hero h1{letter-spacing:-1.1px}.hero p{color:#c0cad8}
+.section-head h2{font-size:18px;letter-spacing:-.15px}.see-all{color:#8db8f2}.anime-grid{gap:14px}.poster{border-radius:7px;border-color:#303b4a;transition:transform .18s,border-color .18s}.poster:hover{transform:translateY(-2px);border-color:#789fd7}.poster-tag{background:#111b2bd9}.new-tag{background:#b9d8ff;color:#12213a}.card-title{font-size:12px;color:#e0e6ef}.rating{color:#e6c783}.meta{color:#9ba8b8}
+.panel{border-color:#2a3544;border-radius:9px;background:#111821}.panel-head{border-color:#293443}.rank{background:#253143;color:#e1e8f1}.mini-poster{border-color:#303c4b}.promo{background:#172333;border:1px solid #29384b;border-radius:9px}.promo h3{color:#b8d6ff}.footer{color:#8290a2}
+#pageView{padding-top:0}#pageView .page-title{font-size:27px;letter-spacing:-.7px;margin:15px 0 18px}#pageView .page-subtitle{font-size:13px;color:#9eabba;margin:-8px 0 23px;line-height:1.6}
+.page-navigation{display:flex;align-items:center;gap:7px;flex-wrap:wrap;padding:10px;margin:0 0 24px;background:#111821;border:1px solid #293443;border-radius:9px}
+.page-navigation .nav-caption{font-size:11px;text-transform:uppercase;letter-spacing:1px;color:#8290a2;font-weight:800;padding:0 8px 0 3px}
+.page-navigation button{border:1px solid transparent;background:transparent;color:#aeb9c8;padding:8px 11px;border-radius:6px;font-size:12px;white-space:nowrap}
+.page-navigation button:hover{background:#202b3a;color:#eef4ff}.page-navigation button.active{background:#243a56;border-color:#3b5678;color:#e0edff}
+#pageView .anime-grid{gap:14px}#pageView .panel{margin-bottom:14px}
+#pageView input,#pageView textarea{background:#0c121a;color:#eef2f8;border:1px solid #354153;border-radius:6px;padding:11px;outline:none}#pageView input:focus,#pageView textarea:focus{border-color:#6b9de8}
+@media(max-width:700px){.topbar{gap:10px}.brand{font-size:21px}.mainnav{overflow-x:auto;justify-content:flex-start;padding-bottom:2px}.mainnav a{padding-inline:3px}.page-navigation{flex-wrap:nowrap;overflow-x:auto}.page-navigation .nav-caption{display:none}.page-navigation button{flex-shrink:0}.hero{border-radius:8px}.hero-arrows button{width:34px;height:34px}}
+
+
+.profile-preview{display:flex;align-items:center;gap:14px;position:relative;overflow:hidden;padding:76px 16px 16px;margin:14px 0 22px;border:1px solid #26364a;border-radius:12px;background:#0c131e}.profile-cover{position:absolute;left:0;right:0;top:0;height:64px;background:linear-gradient(110deg,#152d49,#25486d);background-size:cover;background-position:center}.profile-avatar{position:absolute;top:38px;left:16px;width:48px;height:48px;border:3px solid #0c131e;border-radius:50%;display:grid;place-items:center;background:#213b59;color:#eaf3ff;font-weight:700}.profile-preview>div:last-child{margin-left:58px}.profile-preview p{margin:3px 0 0}.comment-section{margin-top:22px;padding-top:18px;border-top:1px solid #263344}.comment-section h3{margin:0 0 12px}.comment-form{display:grid;gap:10px}.comment-form textarea{min-height:76px;resize:vertical}.comment-form button{justify-self:start}.comment-list{display:grid;gap:10px;margin-top:14px}.comment-item{padding:12px;border:1px solid #263344;border-radius:9px;background:#0c131e}.comment-item b{font-size:13px;color:#dce8f8}.comment-item p{margin:6px 0 0;white-space:pre-wrap;overflow-wrap:anywhere;color:#b9c5d5}.comment-empty{color:#8392a6;font-size:13px;padding:10px 0}
+
+
+/* Neko Nina — refined, compact settings and premium navigation */
+.topbar{background:rgba(8,13,23,.94);border-bottom-color:#263347;box-shadow:0 8px 28px #0002}
+.brand-mark{filter:drop-shadow(0 0 10px #3c8cff35)}
+.side-link,.mainnav a{transition:color .18s ease,background .18s ease,border-color .18s ease}
+.icon-btn{width:38px;height:38px;display:grid;place-items:center;border:1px solid #27364b;border-radius:12px;background:linear-gradient(145deg,#172235,#0d1522);font-size:18px;transition:.2s}
+.icon-btn:hover{color:#fff;border-color:#4b8bd6;background:#142944;transform:translateY(-1px)}
+.modal#settingsModal{display:none;align-items:center;justify-content:center;padding:16px;background:rgba(2,6,14,.72);backdrop-filter:blur(12px)}
+#settingsModal .settings-box{width:min(590px,100%);max-width:590px;max-height:min(84vh,760px);overflow:auto;margin:auto;padding:22px;border-radius:20px;border:1px solid #34465f;background:radial-gradient(ellipse at 100% 0%,#1c3550 0%,transparent 40%),linear-gradient(145deg,#111b2a,#090f19 72%);box-shadow:0 30px 100px #0009;scrollbar-width:thin;scrollbar-color:#344b68 transparent}
+#settingsModal .modal-top{align-items:center;gap:12px;padding-bottom:15px;border-bottom:1px solid #28374b;margin-bottom:17px}
+#settingsModal .modal-top h2{font-size:21px;letter-spacing:-.5px;margin:0 0 5px}
+#settingsModal .modal-top .muted{font-size:12px;line-height:1.5}
+#settingsModal .close{flex-shrink:0;padding:8px 11px;border-radius:10px;background:#182538;border-color:#354760;font-size:12px}
+#settingsModal .settings-section-title{font-size:11px;text-transform:uppercase;letter-spacing:1.8px;color:#7faee5;margin:0 0 10px}
+#settingsModal .settings-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px;margin:0 0 14px}
+#settingsModal .settings-grid label{min-width:0;gap:7px;padding:11px;border:1px solid #26374c;border-radius:12px;background:rgba(13,23,37,.76);font-size:11px;color:#b9c8dc}
+#settingsModal .settings-grid label:focus-within{border-color:#4b8fda;box-shadow:0 0 0 3px #398bdf12}
+#settingsModal .settings-grid input,#settingsModal .settings-grid select{padding:9px 10px;border-radius:9px;border-color:#30435c;background:#091321;font-size:12px}
+#settingsModal .settings-grid input[type=color]{height:37px;padding:3px}
+#settingsModal .profile-preview{padding:12px;border:1px solid #293a50;border-radius:12px;background:#0a1421;margin:8px 0 12px}
+#settingsModal .profile-cover{border-radius:8px}
+#settingsModal .settings-actions{padding-top:14px;border-top:1px solid #28374b;gap:8px}
+#settingsModal .settings-actions button{border-radius:10px;padding:10px 14px;font-size:12px}
+#settingsModal .settings-actions .primary{background:linear-gradient(110deg,#287ce0,#46a5ff);border:0;box-shadow:0 7px 20px #087cff2c}
+#settingsModal .settings-actions .secondary{background:#121e2d;border-color:#35465c}
+#settingsModal #settingsNote{font-size:11px;line-height:1.5;margin:10px 0 0;color:#8495ab}
+#settingsModal .settings-code-note{font-size:11px;color:#8495ab;border:1px solid #25354a;background:#0b1420;border-radius:10px;padding:10px 12px;margin:0 0 4px}
+@media(max-width:700px){.icon-btn{display:grid}.topbar{gap:9px}.mainnav{order:3}.top-search{min-width:75px}#settingsModal .settings-box{padding:17px;max-height:88vh;border-radius:17px}#settingsModal .settings-grid{gap:7px}#settingsModal .settings-grid label{padding:9px}#settingsModal .modal-top h2{font-size:18px}}
+@media(max-width:390px){#settingsModal .settings-grid{grid-template-columns:1fr}#settingsModal .modal-top{align-items:flex-start}}
+
+
+/* Polesan tombol panjang dan pengaturan per-item */
+.auth .signup{min-width:148px;min-height:42px;padding:11px 24px;border-radius:7px;background:linear-gradient(110deg,#1479e8,#35b5ff);border:1px solid #5abaff66;color:#fff;font-weight:800;box-shadow:0 8px 24px #087cff2b;letter-spacing:.2px}
+.auth .signup:hover{filter:brightness(1.12);transform:translateY(-1px)}
+#settingsModal .settings-grid{grid-template-columns:1fr;gap:10px}
+#settingsModal .setting-card{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:12px;padding:10px 12px;border:1px solid #273a52;border-radius:12px;background:linear-gradient(120deg,#101c2b,#0a1421);transition:border-color .18s,background .18s}
+#settingsModal .setting-card:hover{border-color:#3d6590;background:linear-gradient(120deg,#13243a,#0b1625)}
+#settingsModal .setting-card label{display:flex;flex-direction:column;gap:7px;min-width:0;padding:0;border:0;background:transparent;color:#d0deef;font-size:12px}
+#settingsModal .setting-card label:focus-within{box-shadow:none;border-color:transparent}
+#settingsModal .setting-card input,#settingsModal .setting-card select{width:100%;min-width:0;padding:9px 10px;border-radius:8px}
+#settingsModal .setting-card input[type=color]{width:100%;height:35px}
+#settingsModal .setting-apply{align-self:center;white-space:nowrap;padding:10px 13px;border-radius:8px;border:1px solid #32659a;background:#102a47;color:#dceeff;font-size:11px;font-weight:800;cursor:pointer}
+#settingsModal .setting-apply:hover{background:#087cff;border-color:#48aaff}
+#settingsModal .settings-actions button{min-width:150px;min-height:42px;border-radius:8px}
+@media(max-width:440px){#settingsModal .setting-card{grid-template-columns:1fr;gap:8px}#settingsModal .setting-apply{justify-self:stretch}.auth .signup{min-width:118px}}
+</style>
+</head>
+<body>
+<header class="topbar">
+  <a class="brand" href="#home" aria-label="Neko Nina Home"><span class="brand-mark">N</span><span>Neko Nina</span></a>
+  <nav class="mainnav">
+    <a class="active" href="#home">Home</a><a href="#anime">Anime</a><a href="#jadwal">Jadwal</a><a href="#genre">Genre</a><a href="#top">Top 10</a><a href="#request" onclick="goPage('request')">Request</a>
+  </nav>
+  <label class="top-search"><input id="search" type="search" placeholder="Cari anime, judul, atau genre..." aria-label="Cari anime"><button onclick="renderAnime()" aria-label="Cari">⌕</button></label>
+  <button class="icon-btn" id="themeToggle" title="Ganti tema" aria-label="Ganti tema">☾</button><button class="icon-btn" id="openSettings" title="Pengaturan profil dan tampilan" aria-label="Buka pengaturan profil dan tampilan">⚙</button>
+  <div class="auth"><button class="signup" onclick="openAuth('register')">Daftar</button></div>
+</header>
+
+<div class="layout">
+<aside class="sidebar">
+  <div class="side-links">
+    <a class="side-link active" href="#home"><span class="ico">⌂</span>Home</a>
+    <a class="side-link" href="#anime"><span class="ico">◈</span>Anime</a>
+    <a class="side-link" href="#jadwal"><span class="ico">▦</span>Jadwal Rilis</a>
+    <a class="side-link" href="#genre"><span class="ico">◉</span>Genre</a>
+    <a class="side-link" href="#top"><span class="ico">♥</span>Top 10</a>
+    <button class="side-link" onclick="goPage('request')"><span class="ico">➤</span>Request Anime</button>
+  </div>
+  <div id="genre">
+    <div class="side-heading">Genre</div>
+    <div class="side-links" id="genreLinks"></div>
+  </div>
+  <div class="side-foot"><b>▣</b><span>Nonton anime<br>di mana saja,<br>kapan saja!</span></div>
+</aside>
+
+<main id="home">
+<div id="pageView" aria-live="polite"></div>
+<div class="content-grid">
+<div class="primary-col">
+  <section class="hero" aria-label="Anime unggulan">
+    <div class="hero-art" id="heroArt">⚔️</div>
+    <div class="hero-copy">
+      <div class="pills"><span class="pill">TV</span><span class="pill dark" id="heroStatus">Ongoing</span></div>
+      <h1 id="heroTitle">Solo Leveling</h1>
+      <p id="heroDesc">Sung Jin-Woo, seorang hunter yang dianggap paling lemah, memperoleh kekuatan misterius yang mengubah hidupnya dan memulai perjalanan menjadi yang terkuat.</p>
+      <div class="hero-actions"><button class="primary" id="heroWatch">▶ &nbsp;Tonton Sekarang</button><button class="secondary" id="heroDetail">ⓘ &nbsp;Detail</button></div>
+    </div>
+    <div class="hero-arrows"><button id="prevHero" aria-label="Sebelumnya">‹</button><button id="nextHero" aria-label="Berikutnya">›</button></div><div class="dots"><i></i><i></i><i></i><i></i></div>
+  </section>
+
+  <section class="section" id="anime">
+    <div class="section-head"><h2><span>🔥</span>Anime Populer</h2><a class="see-all" href="#anime">Lihat Semua &nbsp;→</a></div>
+    <div class="anime-grid" id="popularGrid"></div>
+  </section>
+  <section class="section updates">
+    <div class="section-head"><h2><span>▦</span>Update Terbaru</h2><a class="see-all" href="#anime">Lihat Semua &nbsp;→</a></div>
+    <div class="anime-grid update-grid" id="updateGrid"></div>
+    <p class="empty" id="empty">Anime tidak ditemukan. Coba kata kunci atau genre lain.</p>
+  </section>
+  <div class="footer">© 2026 Neko Nina — UI demo penggemar anime. Pastikan konten video, gambar, dan subtitle yang digunakan memiliki izin.</div>
+</div>
+
+<aside class="right-col">
+  <section class="panel" id="top"><div class="panel-head"><h3>👑 &nbsp;Anime Populer Minggu Ini</h3></div><div class="panel-body" id="rankingList"></div></section>
+  <section class="panel schedule-panel" id="jadwal"><div class="panel-head"><h3>▦ &nbsp;Jadwal Rilis</h3><a class="see-all" href="#jadwal">Lihat Semua →</a></div><div class="panel-body" id="scheduleList"></div></section>
+  <section class="panel promo" id="request"><div class="promo-art">🌌</div><div><h3>Gabung Sekarang!</h3><p>Dapatkan pengalaman menonton anime yang lebih seru bersama komunitas.</p><button class="primary" onclick="openAuth('register')">Daftar Gratis</button></div></section>
+</aside>
+</div>
+</main>
+</div>
+
+<div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="animeTitle">
+  <div class="modal-box">
+    <div class="modal-top"><div><h2 id="animeTitle">Judul Anime</h2><div class="muted" id="animeMeta"></div></div><button class="close" onclick="closeAnime()">Tutup ✕</button></div>
+    <div class="player" id="player">Pilih episode untuk memulai. Video akan tampil di sini jika URL video yang sah sudah ditambahkan.</div>
+    <h3 style="margin:20px 0 0">Daftar Episode</h3><div class="episodes" id="episodes"></div>
+    <p class="modal-description" id="description"></p>
+    <section class="comment-section" aria-label="Komentar anime"><h3>💬 Komentar komunitas</h3><div class="comment-form"><textarea id="animeCommentInput" placeholder="Tulis pendapatmu tentang anime ini..." maxlength="500"></textarea><button class="primary" type="button" onclick="postAnimeComment()">Kirim komentar</button></div><div class="comment-list" id="animeCommentList"></div></section>
+  </div>
+</div>
+<div class="modal" id="settingsModal" role="dialog" aria-modal="true" aria-labelledby="settingsTitle">
+ <div class="modal-box settings-box">
+  <div class="modal-top"><div><h2 id="settingsTitle">⚙ Pengaturan Neko Nina</h2><div class="muted">Atur profil dan tampilan sesuai selera.</div></div><button class="close" onclick="closeSettings()">Tutup ✕</button></div>
+  <form id="settingsForm">
+   <h3 class="settings-section-title">Preferensi</h3><div class="settings-grid">
+    <label>1. Nama pengguna<input id="setUsername" placeholder="Contoh: NekoFan"></label>
+    <label>2. URL banner profil<input id="setProfileBanner" type="url" placeholder="https://.../banner.jpg"></label>
+    <label>3. Tagline<input id="setTagline" value="Anime streaming"></label>
+    <label>4. Warna aksen<input id="setAccent" type="color" value="#087cff"></label>
+    <label>5. Warna latar<input id="setBackground" type="color" value="#070c14"></label>
+    <label>6. Jumlah kartu per baris<select id="setColumns"><option value="4">4 kartu</option><option value="5">5 kartu</option><option value="6" selected>6 kartu</option><option value="7">7 kartu</option></select></label>
+    <label>7. Jumlah hasil pencarian<select id="setResults"><option>6</option><option>12</option><option>18</option><option>24</option></select></label>
+    <label>8. Tampilkan ranking<select id="setRanking"><option value="yes">Ya</option><option value="no">Tidak</option></select></label>
+    <label>9. Tampilkan jadwal<select id="setSchedule"><option value="yes">Ya</option><option value="no">Tidak</option></select></label>
+    <label>10. Tampilkan banner utama<select id="setHero"><option value="yes">Ya</option><option value="no">Tidak</option></select></label>
+    <label>11. Gaya tampilan<select id="setDensity"><option value="normal">Normal</option><option value="compact">Ringkas</option></select></label>
+   </div>
+   <div id="profilePreview" class="profile-preview"><div class="profile-cover"></div><div class="profile-avatar">N</div><div><b id="profilePreviewName">Pengguna</b><p class="muted">Profil Neko Nina</p></div></div>
+   <p class="settings-code-note">ⓘ Daftar anime dan episode hanya bisa diubah langsung di kode HTML.</p>
+   <div class="settings-actions" style="margin-top:18px"><button type="submit" class="primary">Simpan Pengaturan</button><button type="button" class="secondary" onclick="resetSettings()">Reset pengaturan</button></div>
+   <p class="muted" id="settingsNote">Pengaturan profil disimpan di browser ini. Katalog anime diubah langsung di kode HTML.</p>
+  </form>
+ </div>
+</div>
+<div class="toast" id="toast"></div>
+
+<div class="auth-overlay" id="authOverlay" role="dialog" aria-modal="true" aria-labelledby="authTitle" onclick="if(event.target===this)closeAuth()">
+ <div class="auth-box"><button class="auth-close" onclick="closeAuth()" aria-label="Tutup">×</button>
+  <div class="auth-logo"><span class="brand-mark">N</span><span>Neko Nina</span></div>
+  <div class="auth-kicker">YOUR ANIME UNIVERSE</div><h2 id="authTitle">Gabung ke Neko Nina</h2><p class="auth-sub" id="authSubtitle">Buat akun dan mulai susun daftar anime favoritmu.</p>
+  <form id="authForm" onsubmit="submitAuth(event)">
+   <label class="auth-field" id="nameField"><span>Nama panggilan</span><input id="authName" type="text" placeholder="Nama kamu" autocomplete="nickname" required></label>
+   <label class="auth-field"><span>Email</span><input id="authEmail" type="email" placeholder="nama@email.com" autocomplete="email" required></label>
+   <label class="auth-field"><span>Kata sandi</span><input id="authPassword" type="password" placeholder="Minimal 6 karakter" minlength="6" autocomplete="new-password" required></label>
+   <label class="auth-field" id="confirmField"><span>Ulangi kata sandi</span><input id="authConfirm" type="password" placeholder="Ketik ulang kata sandi" minlength="6" autocomplete="new-password" required></label>
+   <button class="auth-submit" id="authSubmit" type="submit">Buat akun →</button>
+  </form><div class="auth-message" id="authMessage" role="status"></div>
+  <div class="auth-foot">Demo akun lokal untuk tampilan website. Jangan gunakan kata sandi penting atau asli.</div>
+ </div>
+</div>
+<script>
+// TAMBAH ANIME DI SINI (bukan dari menu Pengaturan):
+// {title:"Judul Anime",genre:"Action",year:2026,symbol:"🎬",color:"#244a79",rating:"8.5",episodes:2,
+//  description:"Deskripsi singkat.",status:"Ongoing",image:"https://domain-kamu/poster.jpg",
+//  episodeTitles:{1:"Episode 1",2:"Episode 2"},videos:{1:"https://domain-kamu/episode-1.mp4",2:"https://domain-kamu/episode-2.mp4"}},
+const animeList = [
+ {title:"One Piece",genre:"Adventure",year:1999,symbol:"☠️",color:"#8a3d21",rating:"9.0",episodes:1120,description:"Monkey D. Luffy dan kru Topi Jerami berlayar mencari harta karun legendaris bernama One Piece.",status:"Ongoing",videos:{}},
+ {title:"Naruto: Shippuden",genre:"Action",year:2007,symbol:"🍥",color:"#9a5525",rating:"8.7",episodes:500,description:"Naruto Uzumaki terus berjuang untuk melindungi teman-temannya dan meraih mimpinya menjadi Hokage.",status:"Completed",videos:{}},
+ {title:"Solo Leveling",genre:"Action",year:2024,symbol:"⚔️",color:"#172f68",rating:"9.2",episodes:12,description:"Sung Jin-Woo, hunter yang dianggap paling lemah, memperoleh kemampuan misterius untuk terus berkembang.",status:"Ongoing",videos:{}},
+ {title:"Bleach: Thousand-Year Blood War",genre:"Action",year:2022,symbol:"🗡️",color:"#a52a32",rating:"8.5",episodes:367,description:"Ichigo Kurosaki kembali menghadapi ancaman besar yang menguji kekuatannya sebagai Soul Reaper.",status:"Ongoing",videos:{}},
+ {title:"Jujutsu Kaisen",genre:"Action",year:2020,symbol:"👊",color:"#812b42",rating:"8.8",episodes:47,description:"Yuji Itadori memasuki dunia penyihir jujutsu untuk melawan kutukan berbahaya.",status:"Ongoing",videos:{}},
+ {title:"Demon Slayer",genre:"Fantasy",year:2019,symbol:"🌊",color:"#246b64",rating:"8.9",episodes:55,description:"Tanjiro memulai perjalanan menjadi pembasmi iblis demi menyelamatkan adiknya.",status:"Ongoing",videos:{}},
+ {title:"Sakamoto Days",genre:"Action",year:2025,symbol:"🔫",color:"#bd8147",rating:"8.1",episodes:6,description:"Mantan pembunuh bayaran legendaris menjalani kehidupan sederhana yang terusik oleh masa lalunya.",status:"Ongoing",videos:{}},
+ {title:"Blue Lock",genre:"Sports",year:2022,symbol:"⚽",color:"#164e8c",rating:"8.2",episodes:24,description:"Para striker muda bersaing dalam program intens untuk menciptakan penyerang terbaik Jepang.",status:"Ongoing",videos:{}},
+ {title:"Mashle: Magic and Muscles",genre:"Comedy",year:2023,symbol:"💪",color:"#314e3d",rating:"7.8",episodes:12,description:"Di dunia sihir, Mash mengandalkan kekuatan fisik luar biasa untuk menghadapi berbagai tantangan.",status:"Completed",videos:{}},
+ {title:"The Apothecary Diaries",genre:"Drama",year:2023,symbol:"🌿",color:"#466044",rating:"8.9",episodes:24,description:"Maomao, peracik obat cerdas, memecahkan misteri di lingkungan istana kekaisaran.",status:"Ongoing",videos:{}},
+ {title:"Re:Zero Season 3",genre:"Fantasy",year:2024,symbol:"❄️",color:"#6652a0",rating:"8.4",episodes:8,description:"Subaru menghadapi putaran takdir yang berbahaya demi melindungi orang-orang yang ia sayangi.",status:"Ongoing",videos:{}},
+ {title:"Dr. Stone: New World",genre:"Adventure",year:2023,symbol:"🧪",color:"#648b35",rating:"8.1",episodes:12,description:"Senku menggunakan ilmu pengetahuan untuk membangun kembali peradaban manusia.",status:"Completed",videos:{}},
+ {title:"Wind Breaker",genre:"Action",year:2024,symbol:"🥊",color:"#276d80",rating:"8.2",episodes:13,description:"Haruka Sakura memasuki sekolah yang dikenal karena para petarung yang melindungi kota.",status:"Ongoing",videos:{}},
+ {title:"The Beginning After The End",genre:"Fantasy",year:2025,symbol:"✨",color:"#315b7b",rating:"8.0",episodes:12,description:"Seorang raja bereinkarnasi ke dunia sihir dan memulai hidup baru dengan pengetahuan masa lalu.",status:"Ongoing",videos:{}}
+];
+const genres=["Action","Adventure","Comedy","Drama","Fantasy","Harem","Isekai","Romance","School","Sci-Fi","Slice of Life","Sports","Supernatural","Thriller"];
+let activeGenre="Semua", heroIndex=2;
+const byId=id=>document.getElementById(id);
+function card(anime,index,isNew=false){return `<article class="anime-card" tabindex="0" role="button" aria-label="Detail ${anime.title}" onclick="openAnime(${index})" onkeydown="if(event.key==='Enter'||event.key===' ') {event.preventDefault();openAnime(${index})}"><div class="poster ${anime.image?'has-image':''}" style="--c1:${anime.color}">${anime.image?`<img class="poster-image" src="${anime.image}" alt="Poster ${anime.title}" loading="lazy" onerror="this.remove();this.parentElement.classList.remove('has-image')">`:''}<span class="poster-tag">TV</span>${isNew?'<span class="new-tag">NEW</span>':''}<span class="poster-symbol" ${anime.image?'style="display:none"':''}>${anime.symbol}</span><span class="poster-title">${anime.title}</span></div><div class="card-title" title="${anime.title}">${anime.title}</div><div class="rating">★ <span>${anime.rating}</span></div><div class="meta">${isNew?'Episode '+Math.min(24,anime.episodes):'Episode '+anime.episodes}</div>${isNew?'<div class="meta">Diperbarui baru-baru ini</div>':''}</article>`}
+function renderAnime(){
+ const q=byId("search").value.trim().toLowerCase();
+ const filtered=animeList.map((a,i)=>({...a,index:i})).filter(a=>(activeGenre==="Semua"||a.genre===activeGenre)&&(!q||a.title.toLowerCase().includes(q)||a.genre.toLowerCase().includes(q)));
+ const limit=Math.max(1,Number(byId("setResults")?.value)||6);
+ byId("popularGrid").innerHTML=filtered.slice(0,limit).map(a=>card(a,a.index)).join("");
+ byId("updateGrid").innerHTML=filtered.slice().reverse().slice(0,limit).map(a=>card(a,a.index,true)).join("");
+ byId("empty").style.display=filtered.length?"none":"block";
+}
+// Hanya preferensi tampilan/profil yang disimpan lokal. Katalog anime berasal dari kode animeList.
+const STORAGE_SETTINGS="nekoNinaSettingsV1";
+function applySingleSetting(button){const label=button.closest("label");const control=label&&label.querySelector("input,select,textarea");if(!control)return;saveSettings();}
+function openSettings(){try{const v=JSON.parse(localStorage.getItem(STORAGE_SETTINGS)||"null");if(v){byId("setUsername").value=v.username||"Pengguna";byId("setProfileBanner").value=v.profileBanner||"";}}catch(_){}byId("settingsModal").style.display="block";document.body.style.overflow="hidden";}
+function closeSettings(){byId("settingsModal").style.display="none";document.body.style.overflow=""}
+function saveSettings(){const banner=byId("setProfileBanner").value.trim();if(banner){try{const u=new URL(banner);if(!["http:","https:"].includes(u.protocol))throw 0}catch(e){showToast("URL banner tidak valid. Gunakan https://");return}}const vals={username:byId("setUsername").value.trim()||"Pengguna",profileBanner:banner,tagline:byId("setTagline").value,accent:byId("setAccent").value,background:byId("setBackground").value,columns:byId("setColumns").value,results:byId("setResults").value,ranking:byId("setRanking").value,schedule:byId("setSchedule").value,hero:byId("setHero").value,density:byId("setDensity").value};localStorage.setItem(STORAGE_SETTINGS,JSON.stringify(vals));applySettings(vals);byId("settingsNote").textContent="Pengaturan berhasil disimpan di browser ini.";showToast("Pengaturan disimpan.")}
+function applySettings(v){byId("profilePreviewName").textContent=v.username||"Pengguna";const cover=document.querySelector(".profile-cover");if(cover)cover.style.background=v.profileBanner?`linear-gradient(90deg,rgba(8,13,22,.15),rgba(8,13,22,.15)),url("${v.profileBanner}") center/cover no-repeat`:"linear-gradient(110deg,#152d49,#25486d)";document.documentElement.style.setProperty("--blue",v.accent||"#087cff");document.documentElement.style.setProperty("--bg",v.background||"#070c14");document.documentElement.style.setProperty("--anime-columns",v.columns||6);document.querySelector(".footer").textContent=`© 2026 Neko Nina — ${v.tagline||"Anime streaming"}. Gunakan konten yang memiliki izin.`;byId("rankingList").closest(".panel").style.display=v.ranking==="no"?"none":"";byId("scheduleList").closest(".panel").style.display=v.schedule==="no"?"none":"";document.querySelector(".hero").style.display=v.hero==="no"?"none":"";document.querySelectorAll(".anime-grid").forEach(g=>g.style.gap=v.density==="compact"?"7px":"13px");renderAnime()}
+function resetSettings(){localStorage.removeItem(STORAGE_SETTINGS);const defaults={username:"Pengguna",profileBanner:"",tagline:"Anime streaming",accent:"#087cff",background:"#070c14",columns:"6",results:"6",ranking:"yes",schedule:"yes",hero:"yes",density:"normal"};Object.entries({setUsername:defaults.username,setProfileBanner:defaults.profileBanner,setTagline:defaults.tagline,setAccent:defaults.accent,setBackground:defaults.background,setColumns:defaults.columns,setResults:defaults.results,setRanking:defaults.ranking,setSchedule:defaults.schedule,setHero:defaults.hero,setDensity:defaults.density}).forEach(([id,val])=>byId(id).value=val);applySettings(defaults);showToast("Pengaturan dikembalikan ke awal.")}
+// Setiap preferensi punya tombol Terapkan sendiri agar tidak terasa menyatu.
+document.querySelectorAll("#settingsModal .settings-grid > label").forEach((label)=>{const card=document.createElement("div");card.className="setting-card";label.parentNode.insertBefore(card,label);card.appendChild(label);const btn=document.createElement("button");btn.type="button";btn.className="setting-apply";btn.textContent="Terapkan";btn.addEventListener("click",()=>{saveSettings();});card.appendChild(btn);});
+byId("openSettings").addEventListener("click",openSettings);byId("settingsForm").addEventListener("submit",e=>{e.preventDefault();saveSettings()});byId("settingsModal").addEventListener("click",e=>{if(e.target.id==="settingsModal")closeSettings()});
+try{const saved=JSON.parse(localStorage.getItem(STORAGE_SETTINGS)||"null");if(saved){Object.entries({setUsername:saved.username,setProfileBanner:saved.profileBanner,setTagline:saved.tagline,setAccent:saved.accent,setBackground:saved.background,setColumns:saved.columns,setResults:saved.results,setRanking:saved.ranking,setSchedule:saved.schedule,setHero:saved.hero,setDensity:saved.density}).forEach(([id,val])=>{if(val!==undefined&&byId(id))byId(id).value=val});applySettings(saved)}}catch(e){}
+function goPage(page, opts={}){
+ const valid=["home","anime","jadwal","genre","top","request"];
+ if(!valid.includes(page)) page="home";
+ document.body.dataset.page=page;
+ document.querySelectorAll('.mainnav a, .sidebar .side-links > a').forEach(a=>{
+   const target=(a.getAttribute('href')||'').replace('#','');
+   a.classList.toggle('active',target===page || (page==='anime'&&target==='anime'));
+ });
+ const view=byId('pageView');
+ if(page==='home'){
+   view.innerHTML='';
+ }else if(page==='anime'){
+   const all=animeList.map((a,i)=>({...a,index:i})).filter(a=>(activeGenre==='Semua'||a.genre===activeGenre));
+   view.innerHTML=`<h1 class="page-title">Daftar Anime</h1><p class="page-subtitle">Jelajahi semua anime yang tersedia di Neko Nina.</p><div class="anime-grid">${all.map(a=>card(a,a.index,!!a.custom)).join('')}</div>${all.length?'':'<p class="empty">Belum ada anime untuk ditampilkan.</p>'}`;
+ }else if(page==='jadwal'){
+   view.innerHTML=`<h1 class="page-title">Jadwal Rilis</h1><p class="page-subtitle">Jadwal anime yang tersedia di website.</p><section class="panel"><div class="panel-head"><h3>▦ Jadwal Anime</h3></div><div class="panel-body" id="pageScheduleList">${byId('scheduleList').innerHTML}</div></section>`;
+ }else if(page==='genre'){
+   view.innerHTML=`<h1 class="page-title">Jelajahi Genre</h1><p class="page-subtitle">Pilih genre untuk menyaring daftar anime.</p><div class="genre-page-links">${['Semua',...genres].map(g=>`<button class="secondary" style="margin:0 8px 10px 0" onclick="choosePageGenre(${JSON.stringify(g)})">${g}</button>`).join('')}</div><div id="genrePageResults"></div>`;
+   renderGenrePageResults();
+ }else if(page==='top'){
+   const ranked=animeList.map((a,i)=>({...a,index:i})).sort((a,b)=>Number(b.rating)-Number(a.rating)).slice(0,10);
+   view.innerHTML=`<h1 class="page-title">Top 10 Anime</h1><p class="page-subtitle">Anime dengan rating tertinggi di daftar saat ini.</p><section class="panel"><div class="panel-body">${ranked.map((a,i)=>`<div class="rank-row" role="button" tabindex="0" onclick="openAnime(${a.index})" style="cursor:pointer"><div class="rank">${i+1}</div><div class="mini-poster" style="--c1:${a.color}">${a.image?`<img src="${a.image}" alt="" loading="lazy" onerror="this.remove()">`:a.symbol}</div><div><div class="rank-title">${a.title}</div><div class="rank-meta">★ ${a.rating} · ${a.episodes} Episode</div></div></div>`).join('')}</div></section>`;
+ }else if(page==='request'){
+   view.innerHTML=`<h1 class="page-title">Request Anime</h1><p class="page-subtitle">Usulkan anime yang ingin kamu tambahkan.</p><section class="panel" style="max-width:620px"><div class="panel-body"><label style="display:block;margin-bottom:12px">Judul anime<input id="requestTitle" placeholder="Tulis judul anime" style="display:block;width:100%;margin-top:8px"></label><label style="display:block;margin-bottom:12px">Catatan (opsional)<textarea id="requestNote" placeholder="Catatan tambahan" style="display:block;width:100%;margin-top:8px"></textarea></label><button class="primary" onclick="submitAnimeRequest()">Kirim Request</button></div></section>`;
+ }
+ if(page!=='home'){
+   const navItems=[['home','⌂','Home'],['anime','▣','Anime'],['jadwal','◷','Jadwal'],['genre','◇','Genre'],['top','★','Top 10'],['request','＋','Request']];
+   const nav=`<nav class="page-navigation" aria-label="Navigasi halaman"><span class="nav-caption">Jelajahi</span>${navItems.map(([id,icon,label])=>`<button type="button" class="${page===id?'active':''}" ${page===id?'aria-current="page"':''} onclick="goPage('${id}')"><span aria-hidden="true">${icon}</span> ${label}</button>`).join('')}</nav>`;
+   view.insertAdjacentHTML('afterbegin',nav);
+ }
+ if(!opts.keepScroll) window.scrollTo({top:0,behavior:'smooth'});
+}
+function renderGenrePageResults(){const el=byId('genrePageResults');if(!el)return;const list=animeList.map((a,i)=>({...a,index:i})).filter(a=>activeGenre==='Semua'||a.genre===activeGenre);el.innerHTML=`<h2 class="page-title" style="font-size:20px;margin-top:20px">${activeGenre==='Semua'?'Semua Anime':activeGenre}</h2><div class="anime-grid">${list.map(a=>card(a,a.index,!!a.custom)).join('')}</div>`}
+function choosePageGenre(g){activeGenre=g;renderGenres();renderGenrePageResults();}
+function submitAnimeRequest(){const title=byId('requestTitle')?.value.trim();if(!title){showToast('Isi judul anime terlebih dahulu.');byId('requestTitle')?.focus();return;}showToast('Request “'+title+'” dicatat untuk demo ini.');byId('requestTitle').value='';if(byId('requestNote'))byId('requestNote').value='';}
+function initPageNavigation(){
+ document.querySelectorAll('.mainnav a, .sidebar .side-links > a, .brand, .see-all').forEach(a=>{
+  const href=a.getAttribute('href')||''; if(!href.startsWith('#'))return;
+  a.addEventListener('click',e=>{const page=href.slice(1);if(['home','anime','jadwal','genre','top','request'].includes(page)){e.preventDefault();goPage(page);}});
+ });
+}
+function renderGenres(){byId("genreLinks").innerHTML=genres.map((g,i)=>`<button class="side-link ${activeGenre===g?'active':''}" onclick="setGenre('${g}')"><span class="ico">${["⚒","➤","☻","▣","♨","♡","◉","♥","⌂","✦","☁","⚽","♟","◉"][i]}</span>${g}</button>`).join("")}
+function setGenre(g){activeGenre=activeGenre===g?"Semua":g;renderGenres();renderAnime();if(document.body.dataset.page==='genre'){renderGenrePageResults();window.scrollTo({top:0,behavior:"smooth"});}else{goPage("anime");}}
+function renderRanking(){const ids=[2,0,4,5,1];byId("rankingList").innerHTML=ids.map((id,i)=>{let a=animeList[id];return `<div class="rank-row" onclick="openAnime(${id})" style="cursor:pointer"><div class="rank">${i+1}</div><div class="mini-poster" style="--c1:${a.color}">${a.image?`<img src="${a.image}" alt="" loading="lazy" onerror="this.remove()">`:a.symbol}</div><div><div class="rank-title">${a.title}</div><div class="rank-meta">${a.rating} &nbsp;•&nbsp; ${a.episodes} Episode</div></div></div>`}).join("")}
+function renderSchedule(){const items=[["Senin, 28 Apr 2025",12,13],["Selasa, 29 Apr 2025",8,7],["Rabu, 30 Apr 2025",0,6],["Kamis, 1 Mei 2025",2]];byId("scheduleList").innerHTML=items.map(([day,...ids])=>`<div class="day">${day}</div>${ids.map((id,j)=>{let a=animeList[id];return `<div class="schedule-row" onclick="openAnime(${id})" style="cursor:pointer"><div class="schedule-icon" style="--c1:${a.color}">${a.symbol}</div><div class="schedule-title">${a.title}</div><div class="schedule-time">${["12:00","22:00","17:30","21:00"][j%4]}</div></div>`}).join("")}`).join("")}
+function showHero(){const a=animeList[heroIndex];byId("heroTitle").textContent=a.title;byId("heroDesc").textContent=a.description;byId("heroArt").textContent=a.image?"":a.symbol;byId("heroArt").classList.toggle("has-image",!!a.image);byId("heroArt").style.background=a.image?`linear-gradient(90deg,#050b14 0%,transparent 80%),url("${a.image}") center 30%/cover no-repeat`:`radial-gradient(ellipse at 75% 45%, ${a.color}, transparent 58%)`;byId("heroStatus").textContent=a.status;byId("heroWatch").onclick=()=>openAnime(heroIndex);byId("heroDetail").onclick=()=>openAnime(heroIndex)}
+byId("prevHero").onclick=()=>{heroIndex=(heroIndex-1+animeList.length)%animeList.length;showHero()};
+byId("nextHero").onclick=()=>{heroIndex=(heroIndex+1)%animeList.length;showHero()};
+byId("search").addEventListener("input",()=>{renderAnime();if(document.body.dataset.page==="anime")goPage("anime",{keepScroll:true});});
+let activeCommentAnime="";
+function openAnime(index){const a=animeList[index];activeCommentAnime=a.title;byId("animeTitle").textContent=a.title;byId("animeMeta").textContent=`${a.genre} · ${a.year} · ★ ${a.rating} · ${a.episodes} Episode`;byId("description").textContent=a.description;byId("player").textContent="Pilih episode untuk memulai. Video akan tampil di sini jika URL video yang sah sudah ditambahkan.";byId("episodes").innerHTML=Array.from({length:Math.min(a.episodes,300)},(_,i)=>`<button class="episode-btn" onclick="playEpisode(${index},${i+1})">${safeText((a.episodeTitles&&a.episodeTitles[i+1])||`Episode ${i+1}`)}</button>`).join("")+(a.episodes>300?`<span class="muted">Menampilkan 300 episode pertama.</span>`:"");renderAnimeComments();byId("animeCommentInput").value="";byId("modal").style.display="block";document.body.style.overflow="hidden"}
+
+function safeText(value){return String(value).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;", "'":"&#39;"}[c]))}
+function getAnimeComments(){try{return JSON.parse(localStorage.getItem("nekoNinaCommentsV1")||"{}")}catch(_){return {}}}
+function renderAnimeComments(){const list=byId("animeCommentList");if(!list)return;const all=getAnimeComments(),items=all[activeCommentAnime]||[];list.innerHTML=items.length?items.slice().reverse().map(c=>`<article class="comment-item"><b>${safeText(c.name||"Pengguna")}</b><p>${safeText(c.text)}</p></article>`).join(""):'<div class="comment-empty">Belum ada komentar. Jadilah yang pertama berbagi pendapat.</div>'}
+function postAnimeComment(){const input=byId("animeCommentInput"),text=input.value.trim();if(!text){showToast("Tulis komentar terlebih dahulu.");input.focus();return}let session=null;try{session=JSON.parse(localStorage.getItem("nekoNinaDemoSession")||"null")}catch(_){}const username=(session&&session.name)||(()=>{try{return JSON.parse(localStorage.getItem(STORAGE_SETTINGS)||"{}").username||"Pengguna"}catch(_){return "Pengguna"}})();const all=getAnimeComments();all[activeCommentAnime]=all[activeCommentAnime]||[];all[activeCommentAnime].push({name:username,text,createdAt:Date.now()});try{localStorage.setItem("nekoNinaCommentsV1",JSON.stringify(all));input.value="";renderAnimeComments();showToast("Komentar berhasil ditambahkan.")}catch(e){showToast("Komentar tidak dapat disimpan di browser ini.")}}
+function playEpisode(index,episode){const a=animeList[index],url=a.videos[episode];document.querySelectorAll(".episode-btn").forEach((b,i)=>b.classList.toggle("active",i===episode-1));const p=byId("player");if(!url){p.textContent=`${a.title} — ${(a.episodeTitles&&a.episodeTitles[episode])||`Episode ${episode}`}. URL video belum diisi. URL episode ini belum diisi di data kode animeList.`;return}p.innerHTML="";const v=document.createElement("video");v.controls=true;v.autoplay=true;v.playsInline=true;v.src=url;v.onerror=()=>p.textContent="Video gagal diputar. Periksa URL dan format video.";p.appendChild(v)}
+function closeAnime(){byId("modal").querySelectorAll("video").forEach(v=>{v.pause();v.removeAttribute("src");v.load()});byId("modal").style.display="none";document.body.style.overflow=""}
+byId("modal").addEventListener("click",e=>{if(e.target.id==="modal")closeAnime()});document.addEventListener("keydown",e=>{if(e.key==="Escape")closeAnime()});
+let toastTimer;function showToast(message){const t=byId("toast");t.textContent=message;t.style.display="block";clearTimeout(toastTimer);toastTimer=setTimeout(()=>t.style.display="none",2600)}
+byId("themeToggle").onclick=()=>{document.body.classList.toggle("light");if(document.body.classList.contains("light")){document.documentElement.style.setProperty("--bg","#edf3fb");document.documentElement.style.setProperty("--text","#102033");showToast("Tema terang aktif; beberapa panel tetap menggunakan gaya gelap.")}else{document.documentElement.style.setProperty("--bg","#070c14");document.documentElement.style.setProperty("--text","#f2f6ff");showToast("Tema gelap aktif.")}};
+function makeFallbackPoster(a){
+  // Poster ilustratif tertanam di HTML, jadi tetap tampil walau API/internet gagal.
+  const safeTitle = a.title.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="420" height="620" viewBox="0 0 420 620"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop stop-color="${a.color}"/><stop offset="1" stop-color="#050914"/></linearGradient><radialGradient id="glow"><stop stop-color="#ffffff" stop-opacity=".5"/><stop offset="1" stop-color="#ffffff" stop-opacity="0"/></radialGradient></defs><rect width="420" height="620" fill="url(#g)"/><circle cx="300" cy="190" r="190" fill="url(#glow)"/><path d="M0 470 L125 250 L210 400 L305 220 L420 455 V620 H0Z" fill="#050914" fill-opacity=".55"/><circle cx="210" cy="245" r="92" fill="#07101d" fill-opacity=".72" stroke="#ffffff" stroke-opacity=".6" stroke-width="3"/><path d="M150 245 Q210 130 270 245 L250 325 L170 325Z" fill="#dbeafe" fill-opacity=".9"/><path d="M160 220 L125 170 L185 190 M260 220 L295 170 L235 190" fill="#ffffff" fill-opacity=".8"/><text x="210" y="390" text-anchor="middle" font-size="66">${a.symbol}</text><rect x="22" y="500" width="376" height="90" rx="12" fill="#050914" fill-opacity=".78"/><text x="210" y="536" text-anchor="middle" font-family="Arial,sans-serif" font-size="21" font-weight="bold" fill="white">${safeTitle.length>28?safeTitle.slice(0,26)+"…":safeTitle}</text><text x="210" y="565" text-anchor="middle" font-family="Arial,sans-serif" font-size="12" letter-spacing="4" fill="#80d4ff">ANIME COLLECTION</text></svg>`;
+  return "data:image/svg+xml;charset=UTF-8," + encodeURIComponent(svg);
+}
+animeList.forEach(a => { a.fallbackImage = a.image || makeFallbackPoster(a); a.image = a.image || a.fallbackImage; });
+async function loadRealPosters(){
+  // Poster ilustratif sudah tampil. Coba ganti dengan poster katalog jika API tersedia.
+  for (const a of animeList) {
+    try {
+      const response = await fetch("https://api.jikan.moe/v4/anime?q=" + encodeURIComponent(a.title) + "&limit=1&sfw=true");
+      if (response.status === 429) { await new Promise(r => setTimeout(r, 3000)); continue; }
+      if (!response.ok) continue;
+      const result = await response.json();
+      const item = result.data && result.data[0];
+      const image = item && item.images && item.images.jpg && (item.images.jpg.large_image_url || item.images.jpg.image_url);
+      if (image) a.image = image;
+      renderAnime(); renderRanking(); showHero();
+      await new Promise(resolve => setTimeout(resolve, 1400));
+    } catch (error) {
+      // Poster ilustratif tertanam tetap ditampilkan tanpa koneksi internet.
+    }
+  }
+}
+renderGenres();renderAnime();renderRanking();renderSchedule();showHero();initPageNavigation();goPage("home",{keepScroll:true});
+loadRealPosters();
+
+// Login/daftar demo: akun disimpan hanya di browser ini (bukan sistem server yang aman).
+let authMode="register";
+function openAuth(){authMode="register";byId("authOverlay").classList.add("show");document.body.style.overflow="hidden";setTimeout(()=>byId("authName").focus(),80)}
+function closeAuth(){byId("authOverlay").classList.remove("show");document.body.style.overflow=""}
+function setAuthMode(){authMode="register";}
+function submitAuth(e){e.preventDefault();const email=byId("authEmail").value.trim().toLowerCase(),password=byId("authPassword").value;let users={};try{users=JSON.parse(localStorage.getItem("nekoNinaDemoUsers")||"{}")}catch(_){};const msg=byId("authMessage");if(authMode==="register"){if(byId("authName").value.trim().length<2){msg.textContent="Isi nama minimal 2 karakter.";return}if(password.length<6){msg.textContent="Kata sandi minimal 6 karakter.";return}if(password!==byId("authConfirm").value){msg.textContent="Konfirmasi kata sandi belum cocok.";return}if(users[email]){msg.textContent="Email ini sudah terdaftar di browser ini. Silakan masuk.";return}users[email]={name:byId("authName").value.trim(),password:password};try{localStorage.setItem("nekoNinaDemoUsers",JSON.stringify(users));localStorage.setItem("nekoNinaDemoSession",JSON.stringify({email:email,name:users[email].name}));}catch(err){msg.style.color="#ff9b9b";msg.textContent="Penyimpanan browser diblokir. Buka file melalui Chrome biasa dan izinkan penyimpanan lokal.";return}msg.style.color="#83efb0";msg.textContent="Akun demo berhasil dibuat! Kamu sudah masuk.";updateAuthButtons();setTimeout(closeAuth,900)}else{if(!users[email]||users[email].password!==password){msg.textContent="Email atau kata sandi salah. Jika belum punya akun, pilih Buat akun.";return}try{localStorage.setItem("nekoNinaDemoSession",JSON.stringify({email:email,name:users[email].name}));}catch(err){msg.style.color="#ff9b9b";msg.textContent="Penyimpanan browser diblokir. Coba buka file di Chrome biasa.";return}msg.style.color="#83efb0";msg.textContent="Berhasil masuk. Selamat menonton, "+users[email].name+"!";updateAuthButtons();setTimeout(closeAuth,900)}}
+function updateAuthButtons(){
+  let session=null;
+  try { session=JSON.parse(localStorage.getItem("nekoNinaDemoSession")||"null"); } catch(_) {}
+  const auth=document.querySelector(".auth");
+  if(!auth) return;
+  if(session){
+    auth.innerHTML=`<button type="button" class="login" id="accountButton">${escapeHtml(session.name||"Akun")}</button><button type="button" class="signup" id="logoutButton">Keluar</button>`;
+    byId("accountButton").addEventListener("click",showAccountMenu);
+    byId("logoutButton").addEventListener("click",logoutDemo);
+  } else {
+    auth.innerHTML="";
+    const signup=document.createElement("button"); signup.type="button"; signup.className="signup"; signup.textContent="Daftar"; signup.addEventListener("click",openAuth);
+    auth.append(signup);
+  }
+}
+function showAccountMenu(){let s=null;try{s=JSON.parse(localStorage.getItem("nekoNinaDemoSession")||"null")}catch(_){}if(s)showToast("Masuk sebagai "+s.email)}function logoutDemo(){localStorage.removeItem("nekoNinaDemoSession");updateAuthButtons();showToast("Kamu sudah keluar dari akun demo.")}
+document.addEventListener("keydown",e=>{if(e.key==="Escape")closeAuth()});document.addEventListener("DOMContentLoaded",updateAuthButtons);updateAuthButtons();
+</script>
+</body>
+</html>
